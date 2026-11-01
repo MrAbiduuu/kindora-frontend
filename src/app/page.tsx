@@ -1,4 +1,17 @@
+import Banner from "@/components/home/banner";
+import Values from "@/components/home/values";
+import Features from "@/components/home/features";
+import Subscribe from "@/components/home/subscribe";
 
 export default function Home() {
-  return <div></div>;
+  return (
+    <div className="flex w-full flex-col">
+      <main className="flex-1">
+        <Banner />
+        <Values />
+        <Features />
+        <Subscribe />
+      </main>
+    </div>
+  );
 }

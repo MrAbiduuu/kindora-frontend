@@ -1,0 +1,138 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { CiLogin } from "react-icons/ci";
+import {
+  HiOutlineHome,
+  HiOutlineCalendarDays,
+  HiOutlineBars3,
+} from "react-icons/hi2";
+
+const navLinks = [
+  { href: "/", label: "Home", icon: HiOutlineHome },
+  {
+    href: "/upcoming-events",
+    label: "Upcoming Events",
+    icon: HiOutlineCalendarDays,
+  },
+];
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  return (
+    <header
+      id="top"
+      className="sticky top-0 z-50 border-b border-base-300/70 bg-base-100/85 shadow-sm backdrop-blur-xl"
+    >
+      <div className="navbar mx-auto max-w-7xl gap-1 px-2 sm:px-4 lg:px-4">
+        {/* Logo */}
+        <div className="flex-1">
+          <Link
+            href="/"
+            className="flex w-fit items-center transition-transform duration-300 ease-out hover:scale-105"
+          >
+            <Image
+              src="/kindora-logo.jpg"
+              alt="Kindora Logo"
+              width={240}
+              height={100}
+              priority
+              className="h-13 w-37.5 object-contain sm:h-14.5 sm:w-45"
+            />
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+          {navLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={isActive(href) ? "page" : undefined}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-200 ${
+                isActive(href)
+                  ? "bg-primary/10 font-semibold text-primary"
+                  : "font-medium text-base-content/70 hover:bg-primary/10 hover:text-primary"
+              }`}
+            >
+              <Icon className="text-lg" />
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Right Actions */}
+        <div className="flex flex-1 items-center justify-end gap-2">
+          {/* Theme Toggle */}
+          <label className="swap swap-rotate btn btn-circle btn-ghost btn-sm sm:btn-md">
+            <input type="checkbox" className="theme-controller" value="dark" />
+
+            {/* Sun icon */}
+            <svg
+              className="swap-off h-6 w-6 fill-current text-amber-500"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm0 5a5 5 0 100 10 5 5 0 000-10z" />
+            </svg>
+
+            {/* Moon icon */}
+            <svg
+              className="swap-on h-6 w-6 fill-current text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21.64 13a1 1 0 00-1.05-.14 8.05 8.05 0 01-3.37.73A8.15 8.15 0 019.08 5.49a8.59 8.59 0 01.25-2A1 1 0 008 2.36 10.14 10.14 0 1022 14.05a1 1 0 00-.36-1.05z" />
+            </svg>
+          </label>
+
+          {/* Login */}
+          <Link
+            href="/login"
+            className="btn btn-primary btn-sm rounded-full px-4 shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 sm:px-5"
+          >
+            <CiLogin className="text-xl" />
+            <span>Login</span>
+          </Link>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="dropdown dropdown-end lg:hidden">
+          <button
+            tabIndex={0}
+            className="btn btn-circle btn-ghost btn-sm"
+            aria-label="Open navigation menu"
+          >
+            <HiOutlineBars3 className="h-6 w-6" />
+          </button>
+
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content z-50 mt-4 w-56 rounded-3xl border border-base-300 bg-base-100 p-3 shadow-xl"
+          >
+            {navLinks.map(({ href, label, icon: Icon }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm ${
+                    isActive(href)
+                      ? "bg-primary/10 font-semibold text-primary"
+                      : "text-base-content/80 hover:bg-primary/5 hover:text-primary"
+                  }`}
+                >
+                  <Icon className="text-lg" />
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </header>
+  );
+}
