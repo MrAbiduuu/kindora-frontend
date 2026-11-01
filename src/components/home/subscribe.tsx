@@ -91,7 +91,7 @@ export default function Subscribe() {
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ delay: 0.12, duration: 0.7 }}
-            className="mt-4 font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
+            className="mt-4 font-[--font-ibm-plex-serif] text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
           >
             Subscribe to Local Cause Alerts
           </motion.h2>
