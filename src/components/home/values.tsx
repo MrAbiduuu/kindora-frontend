@@ -107,7 +107,7 @@ export default function Values() {
             Ready to lend a hand — or a heart?
           </p>
           <Link
-            href="/upcoming-events"
+            href="/events"
             className="btn btn-primary rounded-full px-7 shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30"
           >
             Start Your Kindness Journey

@@ -165,7 +165,7 @@ export default function Footer() {
           </div>
 
           <Link
-            href="/upcoming-events"
+            href="/events"
             className="btn btn-primary gap-2 rounded-full px-7 shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30"
           >
             Explore Events
