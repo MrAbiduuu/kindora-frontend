@@ -32,7 +32,7 @@ type EventDetails = {
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const volunteerLabelStyle =
-  "text-xs font-semibold uppercase tracking-[0.14em] text-[#A66F70]";
+  "text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55";
 
 const initialsOf = (value: string) => {
   const email = value.split("@")[0] || value;
@@ -90,7 +90,7 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40, scale: shouldReduceMotion ? 1 : 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, ease: EASE }}
-      className="overflow-hidden rounded-[2rem] border border-[#EEDFD1] bg-[#FFF9F5] shadow-sm"
+      className="overflow-hidden rounded-[2rem] border border-base-300 bg-base-100 shadow-sm"
     >
       {/* ---------- Hero ---------- */}
       <div className="relative h-72 sm:h-96">
@@ -101,8 +101,8 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/5" />
 
-        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold tracking-wide text-[#6B5146] backdrop-blur-sm sm:left-8 sm:top-8">
-          <span className="h-2 w-2 rounded-full bg-[#E83B5B]" />
+        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold tracking-wide text-base-content backdrop-blur-sm sm:left-8 sm:top-8">
+          <span className="h-2 w-2 rounded-full bg-primary" />
           {event.type}
         </span>
 
@@ -134,10 +134,10 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
       </div>
 
       {/* ---------- Volunteer strip ---------- */}
-      <div className="relative flex flex-col gap-5 border-b border-[#EEDFD1] px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+      <div className="relative flex flex-col gap-5 border-b border-base-300 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
         <div className="flex items-center gap-4">
-          <span className="inline-flex rounded-2xl bg-[#E83B5B]/10 p-3.5 ring-1 ring-[#E83B5B]/20">
-            <HiOutlineUserGroup className="text-2xl text-[#E83B5B]" />
+          <span className="inline-flex rounded-2xl bg-primary/10 p-3.5 ring-1 ring-primary/20">
+            <HiOutlineUserGroup className="text-2xl text-primary" />
           </span>
           <div>
             <motion.p
@@ -145,11 +145,11 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
               initial={shouldReduceMotion ? {} : { scale: 1.15 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 16 }}
-              className="text-sm font-bold text-[#6B5146]"
+              className="text-sm font-bold text-base-content"
             >
               {volunteerCountLabel(volunteers.length)}
             </motion.p>
-            <p className="text-xs text-[#8C7B73]">
+            <p className="text-xs text-base-content/70">
               Add your helping hands to this community drive.
             </p>
           </div>
@@ -162,13 +162,13 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
             whileHover={shouldReduceMotion ? {} : { y: -2 }}
             whileTap={shouldReduceMotion ? {} : { scale: 0.92 }}
             aria-label="Copy event link"
-            className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#EEDFD1] bg-white text-[#8C7B73] transition-colors duration-300 hover:border-[#E83B5B]/40 hover:text-[#E83B5B]"
+            className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-base-300 bg-base-100 text-base-content/70 transition-colors duration-300 hover:border-primary/40 hover:text-primary"
           >
             <motion.span
               animate={copied ? { rotate: copied ? 15 : 0 } : { rotate: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 12 }}
             >
-              {copied ? <HiCheckBadge className="text-lg text-[#E83B5B]" /> : <HiLink className="text-lg" />}
+              {copied ? <HiCheckBadge className="text-lg text-primary" /> : <HiLink className="text-lg" />}
             </motion.span>
           </motion.button>
 
@@ -192,7 +192,7 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
               whileHover={shouldReduceMotion ? {} : { y: -3 }}
               whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className="inline-flex items-center gap-2.5 rounded-full bg-[#E83B5B] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/25 transition-colors duration-300 hover:bg-[#D92F50] disabled:opacity-70"
+              className="inline-flex items-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-colors duration-300 hover:bg-primary/85 disabled:opacity-70"
             >
               {joinState === "loading" ? "Joining…" : "Join Event"}
             </motion.button>
@@ -217,10 +217,10 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
       <div className="grid gap-10 px-6 py-10 sm:px-10 md:grid-cols-[minmax(0,1fr)_320px]">
         {/* About + guidelines */}
         <div>
-          <h2 className="font-(family-name:--font-ibm-plex-serif) text-2xl font-bold tracking-tight text-[#6B5146]">
+          <h2 className="font-(family-name:--font-ibm-plex-serif) text-2xl font-bold tracking-tight text-base-content">
             About this Initiative
           </h2>
-          <p className="mt-4 text-sm leading-7 text-[#8C7B73]">{event.description}</p>
+          <p className="mt-4 text-sm leading-7 text-base-content/70">{event.description}</p>
 
           {guidelines.length > 0 && (
             <>
@@ -233,9 +233,9 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease: EASE, delay: 0.05 * index }}
-                    className="flex items-start gap-3 text-sm leading-6 text-[#8C7B73]"
+                    className="flex items-start gap-3 text-sm leading-6 text-base-content/70"
                   >
-                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#E83B5B]" />
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" />
                     {guideline}
                   </motion.li>
                 ))}
@@ -247,30 +247,30 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
         {/* Sidebar */}
         <div className="space-y-7">
           {/* Organizer */}
-          <div className="rounded-3xl border border-[#EEDFD1] bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-base-300 bg-base-100 p-6 shadow-sm">
             <p className={volunteerLabelStyle}>Initiative Organizer</p>
             <div className="mt-4 flex items-center gap-4">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#EEDFD1] text-lg font-bold text-[#6B5146]">
+              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-base-300 text-lg font-bold text-base-content">
                 {initialsOf(organizerEmail)}
               </span>
               <div className="min-w-0">
-                <p className="truncate text-sm font-bold text-[#6B5146]">
+                <p className="truncate text-sm font-bold text-base-content">
                   {displayName(organizerEmail)}
                 </p>
-                <p className="truncate text-xs text-[#8C7B73]">{organizerEmail}</p>
+                <p className="truncate text-xs text-base-content/70">{organizerEmail}</p>
               </div>
             </div>
-            <div className="mt-4 flex items-center gap-2.5 border-t border-[#EEDFD1] pt-4 text-xs font-medium text-[#A66F70]">
-              <HiCheckBadge className="text-base text-[#E83B5B]" />
+            <div className="mt-4 flex items-center gap-2.5 border-t border-base-300 pt-4 text-xs font-medium text-base-content/55">
+              <HiCheckBadge className="text-base text-primary" />
               Verified Platform Member
             </div>
           </div>
 
           {/* Volunteers */}
-          <div className="rounded-3xl border border-[#EEDFD1] bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-base-300 bg-base-100 p-6 shadow-sm">
             <p className={volunteerLabelStyle}>
               Confirmed Volunteers{" "}
-              <span className="text-[#E83B5B]">({volunteers.length})</span>
+              <span className="text-primary">({volunteers.length})</span>
             </p>
             <div className="mt-4 space-y-2.5">
               <AnimatePresence initial={false}>
@@ -281,7 +281,7 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={shouldReduceMotion ? {} : { opacity: 0, y: -8 }}
                     transition={{ duration: 0.35, ease: EASE }}
-                    className="rounded-2xl bg-[#F5EBDD]/70 px-4 py-6 text-center text-sm leading-6 text-[#8C7B73]"
+                    className="rounded-2xl bg-secondary/20/70 px-4 py-6 text-center text-sm leading-6 text-base-content/70"
                   >
                     No volunteers yet. Be the first to join this cause!
                   </motion.p>
@@ -294,12 +294,12 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={shouldReduceMotion ? {} : { opacity: 0, x: 14 }}
                       transition={{ duration: 0.35, ease: EASE }}
-                      className="flex items-center gap-3 rounded-2xl px-2 py-2 transition-colors duration-300 hover:bg-[#FFF9F5]"
+                      className="flex items-center gap-3 rounded-2xl px-2 py-2 transition-colors duration-300 hover:bg-base-100"
                     >
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F0DEDB] text-xs font-bold text-[#A66F70]">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary/30 text-xs font-bold text-base-content/55">
                         {initialsOf(email)}
                       </span>
-                      <p className="truncate text-sm font-medium text-[#6B5146]">{email}</p>
+                      <p className="truncate text-sm font-medium text-base-content">{email}</p>
                       {email === ORGANIZER_SESSION_EMAIL && (
                         <span className="ml-auto shrink-0 rounded-full bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-success ring-1 ring-success/20">
                           You

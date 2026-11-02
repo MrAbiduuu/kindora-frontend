@@ -150,7 +150,13 @@
   --sidebar-ring: oklch(60% 0.185 16);
 }
 
-.dark {
+/*
+ * The navbar toggles daisyUI's .theme-controller checkbox, which switches
+ * the daisyUI color-via-:has theme. Reflect the same state on the shadcn
+ * tokens (body background, cards, borders) so every page follows the toggle.
+ */
+.dark,
+html:has(input.theme-controller[value="dark"]:checked) {
   --background: oklch(22% 0.025 40);
   --foreground: oklch(93% 0.012 80);
   --card: oklch(26% 0.03 40);
@@ -211,3 +217,5 @@
     animation: none;
   }
 }
+
+/* theme sync recompile */

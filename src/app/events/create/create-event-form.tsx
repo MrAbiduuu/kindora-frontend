@@ -73,10 +73,10 @@ const itemVariants: Variants = {
 };
 
 const inputClass =
-  "input h-14 w-full rounded-full border-[#EEDFD1] bg-white pl-12 text-sm font-medium text-[#6B5146] shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-[#BCADA2] hover:border-[#E3C9B4] focus:border-[#E83B5B] focus:outline-[#E83B5B]/20";
+  "input h-14 w-full rounded-full border-base-300 bg-base-100 pl-12 text-sm font-medium text-base-content shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-base-content/40 hover:border-primary/30 focus:border-primary focus:outline-primary/20";
 
 const labelClass =
-  "text-xs font-semibold uppercase tracking-[0.14em] text-[#A66F70]";
+  "text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55";
 
 const CreateEventForm = ({ today }: { today: string }) => {
   const shouldReduceMotion = useReducedMotion();
@@ -156,7 +156,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
         >
           <Link
             href="/events"
-            className="group inline-flex items-center gap-2.5 text-sm font-semibold text-[#8C7B73] transition-colors duration-300 hover:text-[#E83B5B]"
+            className="group inline-flex items-center gap-2.5 text-sm font-semibold text-base-content/70 transition-colors duration-300 hover:text-primary"
           >
             <HiArrowLeft className="text-lg transition-transform duration-300 group-hover:-translate-x-1" />
             Back to Upcoming Events
@@ -172,7 +172,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
           }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.85, ease: EASE }}
-          className="relative overflow-hidden rounded-[2rem] border border-[#EEDFD1] bg-[#FFF9F5] px-6 py-10 shadow-sm sm:px-10 md:py-14"
+          className="relative overflow-hidden rounded-[2rem] border border-base-300 bg-base-100 px-6 py-10 shadow-sm sm:px-10 md:py-14"
         >
           {/* Floating decorations */}
           <motion.div
@@ -182,7 +182,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 : { x: [0, 22, 0], y: [0, 26, 0], scale: [1, 1.12, 1] }
             }
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#F9E8E8] blur-3xl"
+            className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
           />
           <motion.div
             animate={
@@ -191,7 +191,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 : { x: [0, -22, 0], y: [0, -26, 0], scale: [1, 1.14, 1] }
             }
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-[#F5EBDD] blur-3xl"
+            className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-secondary/20 blur-3xl"
           />
 
           <AnimatePresence mode="wait">
@@ -222,16 +222,16 @@ const CreateEventForm = ({ today }: { today: string }) => {
                   <HiCheckCircle className="text-6xl text-success" />
                 </motion.div>
 
-                <h2 className="mt-8 font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold tracking-tight text-[#6B5146] sm:text-4xl">
-                  Your event is <span className="text-[#E83B5B]">live!</span>
+                <h2 className="mt-8 font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold tracking-tight text-base-content sm:text-4xl">
+                  Your event is <span className="text-primary">live!</span>
                 </h2>
-                <p className="mt-3 max-w-md text-sm leading-7 text-[#8C7B73]">
+                <p className="mt-3 max-w-md text-sm leading-7 text-base-content/70">
                   {title} has been published. Volunteers nearby will be able to
                   discover it and join your cause.
                 </p>
 
                 {/* Summary */}
-                <div className="mt-8 w-full max-w-md space-y-3 rounded-3xl border border-[#EEDFD1] bg-white/80 p-6 text-left">
+                <div className="mt-8 w-full max-w-md space-y-3 rounded-3xl border border-base-300 bg-white/80 p-6 text-left">
                   <SummaryRow icon={HiOutlinePencilSquare} value={title} />
                   <SummaryRow icon={HiOutlineSparkles} value={type} />
                   <SummaryRow
@@ -251,7 +251,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                   >
                     <Link
                       href="/events"
-                      className="group inline-flex items-center gap-3 rounded-full bg-[#E83B5B] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/20 transition-all duration-300 hover:bg-[#D92F50]"
+                      className="group inline-flex items-center gap-3 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-300 hover:bg-primary/85"
                     >
                       View All Events
                       <HiArrowRight className="text-lg transition-transform duration-300 group-hover:translate-x-1" />
@@ -262,7 +262,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     onClick={resetForm}
                     whileHover={shouldReduceMotion ? {} : { y: -3 }}
                     whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
-                    className="rounded-full border border-[#EEDFD1] bg-white px-7 py-3.5 text-sm font-semibold text-[#8C7B73] transition-colors duration-300 hover:border-[#E83B5B]/40 hover:text-[#E83B5B]"
+                    className="rounded-full border border-base-300 bg-base-100 px-7 py-3.5 text-sm font-semibold text-base-content/70 transition-colors duration-300 hover:border-primary/40 hover:text-primary"
                   >
                     Create Another Event
                   </motion.button>
@@ -280,10 +280,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 {/* Badge */}
                 <motion.div
                   variants={itemVariants}
-                  className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#EEDFD1] bg-white/80 px-4 py-2"
+                  className="mb-6 inline-flex items-center gap-2 rounded-full border border-base-300 bg-white/80 px-4 py-2"
                 >
-                  <HiOutlineSparkles className="text-lg text-[#E83B5B]" />
-                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#A66F70]">
+                  <HiOutlineSparkles className="text-lg text-primary" />
+                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-base-content/55">
                     Social Service Drive
                   </span>
                 </motion.div>
@@ -291,15 +291,15 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 {/* Heading */}
                 <motion.h1
                   variants={itemVariants}
-                  className="font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold leading-tight tracking-tight text-[#6B5146] sm:text-4xl md:text-5xl"
+                  className="font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
                 >
-                  Create a <span className="text-[#E83B5B]">Community</span>{" "}
+                  Create a <span className="text-primary">Community</span>{" "}
                   Event
                 </motion.h1>
 
                 <motion.p
                   variants={itemVariants}
-                  className="mt-4 max-w-xl text-sm leading-7 text-[#8C7B73] sm:text-base"
+                  className="mt-4 max-w-xl text-sm leading-7 text-base-content/70 sm:text-base"
                 >
                   Organize a local relief effort, environmental cleanup, or
                   community support drive. Every small act creates a greater
@@ -316,10 +316,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     {/* Event Title */}
                     <div>
                       <p className={labelClass}>
-                        Event Title <span className="text-[#E83B5B]">*</span>
+                        Event Title <span className="text-primary">*</span>
                       </p>
                       <div className="group relative mt-2.5">
-                        <HiOutlinePencilSquare className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-[#BCADA2] transition-colors duration-300 group-focus-within:text-[#E83B5B]" />
+                        <HiOutlinePencilSquare className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-base-content/40 transition-colors duration-300 group-focus-within:text-primary" />
                         <input
                           type="text"
                           value={title}
@@ -338,7 +338,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     <div className="space-y-7 md:grid md:grid-cols-2 md:gap-7 md:space-y-0">
                       <div>
                         <p className={labelClass}>
-                          Event Type <span className="text-[#E83B5B]">*</span>
+                          Event Type <span className="text-primary">*</span>
                         </p>
                         <div className="mt-2.5 flex flex-wrap gap-2.5">
                           {EVENT_TYPES.map((eventType) => {
@@ -368,8 +368,8 @@ const CreateEventForm = ({ today }: { today: string }) => {
                                 }}
                                 className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold transition-colors duration-300 sm:text-sm ${
                                   selected
-                                    ? "border-[#E83B5B] bg-[#E83B5B] text-white shadow-lg shadow-[#E83B5B]/25"
-                                    : "border-[#EEDFD1] bg-white text-[#8C7B73] hover:border-[#E83B5B]/50 hover:text-[#E83B5B]"
+                                    ? "border-primary bg-primary text-white shadow-lg shadow-primary/25"
+                                    : "border-base-300 bg-base-100 text-base-content/70 hover:border-primary/50 hover:text-primary"
                                 }`}
                               >
                                 <Icon className="text-base" />
@@ -382,10 +382,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
 
                       <div>
                         <p className={labelClass}>
-                          Event Date <span className="text-[#E83B5B]">*</span>
+                          Event Date <span className="text-primary">*</span>
                         </p>
                         <div className="group relative mt-2.5">
-                          <HiOutlineCalendarDays className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-[#BCADA2]" />
+                          <HiOutlineCalendarDays className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-base-content/40" />
                           <input
                             type="date"
                             min={today}
@@ -397,7 +397,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                             className={`${inputClass} pr-4 [color-scheme:light]`}
                           />
                         </div>
-                        <p className="mt-2.5 text-xs text-[#BCADA2]">
+                        <p className="mt-2.5 text-xs text-base-content/40">
                           Dates must be in the future (today or later).
                         </p>
                       </div>
@@ -407,10 +407,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     <div>
                       <p className={labelClass}>
                         Location / Venue{" "}
-                        <span className="text-[#E83B5B]">*</span>
+                        <span className="text-primary">*</span>
                       </p>
                       <div className="group relative mt-2.5">
-                        <HiOutlineMapPin className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-[#BCADA2] transition-colors duration-300 group-focus-within:text-[#E83B5B]" />
+                        <HiOutlineMapPin className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-base-content/40 transition-colors duration-300 group-focus-within:text-primary" />
                         <input
                           type="text"
                           value={location}
@@ -429,10 +429,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     <div>
                       <p className={labelClass}>
                         Thumbnail Image URL{" "}
-                        <span className="text-[#E83B5B]">*</span>
+                        <span className="text-primary">*</span>
                       </p>
                       <div className="group relative mt-2.5">
-                        <HiOutlinePhoto className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-[#BCADA2] transition-colors duration-300 group-focus-within:text-[#E83B5B]" />
+                        <HiOutlinePhoto className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-base-content/40 transition-colors duration-300 group-focus-within:text-primary" />
                         <input
                           type="url"
                           value={thumbnail}
@@ -441,7 +441,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                           className={`${inputClass} pr-4`}
                         />
                       </div>
-                      <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#BCADA2]">
+                      <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-base-content/40">
                         <span>Quick photo presets:</span>
                         {PHOTO_PRESETS.map((preset, index) => (
                           <span
@@ -449,7 +449,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                             className="inline-flex items-center gap-2"
                           >
                             {index > 0 && (
-                              <span className="text-[#EEDFD1]">•</span>
+                              <span className="text-base-300">•</span>
                             )}
                             <button
                               type="button"
@@ -457,7 +457,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                                 setThumbnail(preset.url);
                                 setError(null);
                               }}
-                              className="font-semibold text-[#A66F70] underline-offset-2 transition-colors duration-300 hover:text-[#E83B5B] hover:underline"
+                              className="font-semibold text-base-content/55 underline-offset-2 transition-colors duration-300 hover:text-primary hover:underline"
                             >
                               {preset.label}
                             </button>
@@ -470,10 +470,10 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     <div>
                       <p className={labelClass}>
                         Event Description{" "}
-                        <span className="text-[#E83B5B]">*</span>
+                        <span className="text-primary">*</span>
                       </p>
                       <div className="group relative mt-2.5">
-                        <HiOutlineDocumentText className="pointer-events-none absolute left-4 top-5 text-lg text-[#BCADA2] transition-colors duration-300 group-focus-within:text-[#E83B5B]" />
+                        <HiOutlineDocumentText className="pointer-events-none absolute left-4 top-5 text-lg text-base-content/40 transition-colors duration-300 group-focus-within:text-primary" />
                         <textarea
                           value={description}
                           onChange={(event) => {
@@ -483,23 +483,23 @@ const CreateEventForm = ({ today }: { today: string }) => {
                           placeholder="Explain the purpose of the drive, volunteers required, items being distributed, or tasks to complete…"
                           rows={5}
                           maxLength={maxDescription}
-                          className="textarea w-full rounded-[1.75rem] border-[#EEDFD1] bg-white py-4 pl-12 pr-14 text-sm font-medium leading-7 text-[#6B5146] shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-[#BCADA2] hover:border-[#E3C9B4] focus:border-[#E83B5B] focus:outline-[#E83B5B]/20"
+                          className="textarea w-full rounded-[1.75rem] border-base-300 bg-base-100 py-4 pl-12 pr-14 text-sm font-medium leading-7 text-base-content shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-base-content/40 hover:border-primary/30 focus:border-primary focus:outline-primary/20"
                         />
-                        <span className="absolute right-5 top-5 text-[11px] font-medium tabular-nums text-[#BCADA2]">
+                        <span className="absolute right-5 top-5 text-[11px] font-medium tabular-nums text-base-content/40">
                           {description.length}/{maxDescription}
                         </span>
                       </div>
                     </div>
 
                     {/* Organizer email (attached) */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 rounded-full border border-[#EEDFD1] bg-white/70 px-5 py-3.5">
-                      <span className="inline-flex items-center gap-2.5 text-sm font-medium text-[#8C7B73]">
-                        <HiOutlineEnvelope className="text-lg text-[#BCADA2]" />
+                    <div className="flex flex-wrap items-center justify-between gap-3 rounded-full border border-base-300 bg-white/70 px-5 py-3.5">
+                      <span className="inline-flex items-center gap-2.5 text-sm font-medium text-base-content/70">
+                        <HiOutlineEnvelope className="text-lg text-base-content/40" />
                         Organizer Email attached:
                       </span>
-                      <span className="inline-flex items-center gap-2.5 text-sm font-semibold text-[#6B5146]">
+                      <span className="inline-flex items-center gap-2.5 text-sm font-semibold text-base-content">
                         {ORGANIZER_EMAIL}
-                        <HiLockClosed className="text-sm text-[#BCADA2]" />
+                        <HiLockClosed className="text-sm text-base-content/40" />
                       </span>
                     </div>
 
@@ -534,7 +534,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                           stiffness: 400,
                           damping: 15,
                         }}
-                        className="group inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#E83B5B] text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/25 transition-colors duration-300 hover:bg-[#D92F50] sm:text-base"
+                        className="group inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-primary text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-colors duration-300 hover:bg-primary/85 sm:text-base"
                       >
                         <HiOutlineSparkles className="text-lg transition-transform duration-300 group-hover:rotate-12" />
                         Publish Event
@@ -547,7 +547,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 {/* Bottom accent */}
                 <motion.div
                   variants={itemVariants}
-                  className="mt-10 h-px w-full bg-gradient-to-r from-[#E83B5B]/40 via-[#EEDFD1] to-transparent"
+                  className="mt-10 h-px w-full bg-gradient-to-r from-primary/40 via-base-300 to-transparent"
                 />
               </motion.div>
             )}
@@ -566,10 +566,10 @@ const SummaryRow = ({
   value: string;
 }) => (
   <div className="flex items-center gap-3 text-sm">
-    <span className="inline-flex shrink-0 rounded-full bg-white p-2 text-[#E83B5B] ring-1 ring-[#EEDFD1]">
+    <span className="inline-flex shrink-0 rounded-full bg-base-100 p-2 text-primary ring-1 ring-base-300">
       <Icon className="text-base" />
     </span>
-    <span className="font-semibold text-[#6B5146]">{value}</span>
+    <span className="font-semibold text-base-content">{value}</span>
   </div>
 );
 

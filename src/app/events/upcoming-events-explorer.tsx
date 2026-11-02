@@ -63,7 +63,7 @@ export default function UpcomingEventsExplorer({
   return (
     <div>
       {/* ---- Filter bar ---- */}
-      <div className="flex flex-col gap-5 rounded-3xl border border-[#EEDFD1] bg-[#FFF9F5] p-5 shadow-sm md:flex-row md:items-center md:justify-between md:gap-4 lg:px-7">
+      <div className="flex flex-col gap-5 rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm md:flex-row md:items-center md:justify-between md:gap-4 lg:px-7">
         {/* Type chips */}
         <div
           className="flex flex-wrap gap-2.5"
@@ -84,8 +84,8 @@ export default function UpcomingEventsExplorer({
                 onClick={() => setActiveType(type)}
                 className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-300 ${
                   selected
-                    ? "border-[#E83B5B] bg-[#E83B5B] text-white shadow-lg shadow-[#E83B5B]/25"
-                    : "border-[#EEDFD1] bg-white text-[#8C7B73] hover:border-[#E83B5B]/50 hover:text-[#E83B5B]"
+                    ? "border-primary bg-primary text-white shadow-lg shadow-primary/25"
+                    : "border-base-300 bg-base-100 text-base-content/70 hover:border-primary/50 hover:text-primary"
                 }`}
               >
                 {type}
@@ -99,8 +99,8 @@ export default function UpcomingEventsExplorer({
           <HiMagnifyingGlass
             className={`pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg transition-colors duration-300 ${
               query
-                ? "text-[#E83B5B]"
-                : "text-[#BCADA2] group-focus-within:text-[#E83B5B]"
+                ? "text-primary"
+                : "text-base-content/40 group-focus-within:text-primary"
             }`}
           />
           <input
@@ -109,14 +109,14 @@ export default function UpcomingEventsExplorer({
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search events or areas…"
             aria-label="Search events or areas"
-            className="input h-12 w-full rounded-full border-[#EEDFD1] bg-white pl-12 pr-10 text-sm font-medium text-[#6B5146] shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-[#BCADA2] hover:border-[#E3C9B4] focus:border-[#E83B5B] focus:outline-[#E83B5B]/20"
+            className="input h-12 w-full rounded-full border-base-300 bg-base-100 pl-12 pr-10 text-sm font-medium text-base-content shadow-sm transition-all duration-300 placeholder:font-normal placeholder:text-base-content/40 hover:border-primary/30 focus:border-primary focus:outline-primary/20"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-[#BCADA2] transition-colors duration-300 hover:bg-[#F9E8E8] hover:text-[#E83B5B]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-base-content/40 transition-colors duration-300 hover:bg-primary/10 hover:text-primary"
             >
               <HiXMark className="text-base" />
             </button>
@@ -125,9 +125,9 @@ export default function UpcomingEventsExplorer({
       </div>
 
       {/* ---- Result count ---- */}
-      <p className="mt-6 text-sm font-medium text-[#8C7B73]">
+      <p className="mt-6 text-sm font-medium text-base-content/70">
         Showing{" "}
-        <span className="font-semibold text-[#E83B5B]">
+        <span className="font-semibold text-primary">
           {filteredEvents.length}
         </span>{" "}
         of {events.length} upcoming {events.length === 1 ? "event" : "events"}
@@ -135,14 +135,14 @@ export default function UpcomingEventsExplorer({
           <>
             {" "}
             in{" "}
-            <span className="font-semibold text-[#6B5146]">{activeType}</span>
+            <span className="font-semibold text-base-content">{activeType}</span>
           </>
         )}
         {query.trim() && (
           <>
             {" "}
             matching{" "}
-            <span className="font-semibold text-[#6B5146]">
+            <span className="font-semibold text-base-content">
               &ldquo;{query.trim()}&rdquo;
             </span>
           </>
@@ -175,7 +175,7 @@ export default function UpcomingEventsExplorer({
       )}
 
       {/* Bottom accent */}
-      <div className="mt-12 h-px w-full bg-gradient-to-r from-[#EEDFD1] via-[#EEDFD1] to-transparent" />
+      <div className="mt-12 h-px w-full bg-gradient-to-r from-base-300 via-base-300 to-transparent" />
     </div>
   );
 }
@@ -205,7 +205,7 @@ const EventCard = ({
           : { opacity: 0, scale: 0.94, y: -10 }
       }
       transition={{ duration: 0.35, ease: EASE }}
-      className="group flex flex-col overflow-hidden rounded-3xl border border-[#EEDFD1] bg-[#FFF9F5] shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#E83B5B]/10"
+      className="group flex flex-col overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10"
     >
       {/* Thumbnail */}
       <div className="relative h-44 overflow-hidden">
@@ -217,36 +217,36 @@ const EventCard = ({
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold tracking-wide text-[#A66F70] backdrop-blur-sm">
+        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold tracking-wide text-base-content/55 backdrop-blur-sm">
           {event.type}
         </span>
       </div>
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="font-(family-name:--font-ibm-plex-serif) text-lg font-bold leading-snug text-[#6B5146]">
+        <h3 className="font-(family-name:--font-ibm-plex-serif) text-lg font-bold leading-snug text-base-content">
           {event.title}
         </h3>
 
-        <div className="mt-3 space-y-2 text-sm text-[#8C7B73]">
+        <div className="mt-3 space-y-2 text-sm text-base-content/70">
           {displayDate && (
             <p className="inline-flex w-full items-center gap-2.5">
-              <HiOutlineCalendarDays className="shrink-0 text-base text-[#E83B5B]" />
+              <HiOutlineCalendarDays className="shrink-0 text-base text-primary" />
               {displayDate}
             </p>
           )}
           <p className="inline-flex w-full items-center gap-2.5">
-            <HiOutlineMapPin className="shrink-0 text-base text-[#E83B5B]" />
+            <HiOutlineMapPin className="shrink-0 text-base text-primary" />
             {event.location}
           </p>
         </div>
 
-        <p className="mt-4 line-clamp-2 text-sm leading-6 text-[#8C7B73]">
+        <p className="mt-4 line-clamp-2 text-sm leading-6 text-base-content/70">
           {event.description}
         </p>
 
         <div className="mt-auto pt-6">
-          <div className="h-px w-full bg-linear-to-r from-[#E83B5B]/30 via-[#EEDFD1] to-transparent" />
+          <div className="h-px w-full bg-linear-to-r from-primary/30 via-base-300 to-transparent" />
         </div>
         <div className="mt-4 flex items-center justify-center gap-3">
           <Link href={`/events/${event._id}`}>
@@ -275,15 +275,15 @@ const EmptyResult = ({
     }
     animate={{ opacity: 1, scale: 1, y: 0 }}
     transition={{ duration: 0.4, ease: EASE }}
-    className="mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-[#EEDFD1] bg-[#FFF9F5] px-8 py-14 text-center shadow-sm"
+    className="mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-base-300 bg-base-100 px-8 py-14 text-center shadow-sm"
   >
-    <span className="inline-flex rounded-full bg-[#F5EBDD] p-4">
-      <HiOutlineSparkles className="text-3xl text-[#A66F70]" />
+    <span className="inline-flex rounded-full bg-secondary/20 p-4">
+      <HiOutlineSparkles className="text-3xl text-base-content/55" />
     </span>
-    <h2 className="mt-6 font-(family-name:--font-ibm-plex-serif) text-2xl font-bold text-[#6B5146]">
+    <h2 className="mt-6 font-(family-name:--font-ibm-plex-serif) text-2xl font-bold text-base-content">
       No events found
     </h2>
-    <p className="mt-3 text-sm leading-7 text-[#8C7B73]">
+    <p className="mt-3 text-sm leading-7 text-base-content/70">
       {query
         ? `Nothing matches “${query}”${activeType !== "All" ? ` in ${activeType}` : ""}. Try a different search or explore another category.`
         : `There are no ${activeType} events coming up right now. Check back soon or browse all events.`}
@@ -291,7 +291,7 @@ const EmptyResult = ({
     <button
       type="button"
       onClick={onReset}
-      className="mt-7 rounded-full border border-[#EEDFD1] bg-white px-6 py-3 text-sm font-semibold text-[#8C7B73] transition-colors duration-300 hover:border-[#E83B5B]/40 hover:text-[#E83B5B]"
+      className="mt-7 rounded-full border border-base-300 bg-base-100 px-6 py-3 text-sm font-semibold text-base-content/70 transition-colors duration-300 hover:border-primary/40 hover:text-primary"
     >
       Show All Events
     </button>
