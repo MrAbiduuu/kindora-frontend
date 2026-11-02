@@ -2,13 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CiLogin } from "react-icons/ci";
 import {
   HiOutlineHome,
   HiOutlineCalendarDays,
   HiOutlineBars3,
+  HiOutlinePlusCircle,
+  HiOutlineClipboardDocumentList,
+  HiOutlineUserGroup,
+  HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
+import { authClient } from "@/lib/auth-client";
 
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },
@@ -21,8 +26,24 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
+
+  const user = session?.user;
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push("/");
+  };
+
+  const userInitial =
+    user?.name?.charAt(0).toUpperCase() ||
+    user?.email?.charAt(0).toUpperCase() ||
+    "U";
 
   return (
     <header
@@ -91,14 +112,109 @@ export default function Navbar() {
             </svg>
           </label>
 
-          {/* Login */}
-          <Link
-            href="/login"
-            className="btn btn-primary btn-sm rounded-full px-4 shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 sm:px-5"
-          >
-            <CiLogin className="text-xl" />
-            <span>Login</span>
-          </Link>
+          {/* Authentication */}
+          {!isPending &&
+            (user ? (
+              /* Logged In - User Dropdown */
+              <div className="dropdown dropdown-end">
+                <button
+                  tabIndex={0}
+                  className="btn btn-ghost btn-sm sm:btn-md flex items-center gap-2 rounded-full px-2"
+                  aria-label="Open user menu"
+                >
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt={user.name || "User"}
+                      className="h-9 w-9 rounded-full border border-base-300 object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-content">
+                      {userInitial}
+                    </div>
+                  )}
+
+                  <span className="hidden max-w-28 truncate text-sm font-semibold sm:block">
+                    {user.name || "User"}
+                  </span>
+                </button>
+
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content z-50 mt-4 w-64 rounded-2xl border border-base-300 bg-base-100 p-3 shadow-xl"
+                >
+                  {/* User Information */}
+                  <li className="pointer-events-none mb-2 border-b border-base-300 pb-3">
+                    <div className="flex items-center gap-3 rounded-xl">
+                      {user.image ? (
+                        <Image
+                          src={user.image}
+                          alt={user.name || "User"}
+                          className="h-11 w-11 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-content">
+                          {userInitial}
+                        </div>
+                      )}
+
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-bold text-base-content">
+                          {user.name || "User"}
+                        </p>
+                        <p className="truncate text-xs text-base-content/60">
+                          {user.email}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+
+                  {/* Create Event */}
+                  <li>
+                    <Link href="/events/create">
+                      <HiOutlinePlusCircle className="text-lg" />
+                      Create Event
+                    </Link>
+                  </li>
+
+                  {/* Manage Events */}
+                  <li>
+                    <Link href="/events/manage-events">
+                      <HiOutlineClipboardDocumentList className="text-lg" />
+                      Manage Events
+                    </Link>
+                  </li>
+
+                  {/* Join Event */}
+                  <li>
+                    <Link href="/events">
+                      <HiOutlineUserGroup className="text-lg" />
+                      Join Event
+                    </Link>
+                  </li>
+
+                  {/* Logout */}
+                  <li className="mt-2 border-t border-base-300 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="text-error hover:bg-error/10"
+                    >
+                      <HiOutlineArrowRightOnRectangle className="text-lg" />
+                      Log Out
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              /* Logged Out - Login Button */
+              <Link
+                href="/login"
+                className="btn btn-primary btn-sm rounded-full px-4 shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 sm:px-5"
+              >
+                <CiLogin className="text-xl" />
+                <span>Login</span>
+              </Link>
+            ))}
         </div>
 
         {/* Mobile Menu */}
