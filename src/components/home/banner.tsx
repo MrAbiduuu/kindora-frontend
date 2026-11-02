@@ -24,9 +24,7 @@ export default function Banner() {
           <h1 className="font-(family-name:--font-serif) animate-in text-4xl font-bold leading-[1.1] tracking-tight text-base-content sm:text-5xl lg:text-6xl fade-in-0 slide-in-from-bottom-3 fill-mode-both duration-700 [animation-delay:100ms]">
             Small Acts.
             <br />
-            <span className="text-primary italic">
-              Greater Impact.
-            </span>
+            <span className="text-primary italic">Greater Impact.</span>
           </h1>
 
           <p className="max-w-xl animate-in text-base leading-8 text-base-content/65 sm:text-lg fade-in slide-in-from-bottom-3 fill-mode-both duration-700 [animation-delay:200ms]">
@@ -38,7 +36,7 @@ export default function Banner() {
           {/* Buttons */}
           <div className="flex animate-in flex-wrap gap-4 pt-2 fade-in slide-in-from-bottom-3 fill-mode-both duration-700 [animation-delay:300ms]">
             <Link
-              href="/upcoming-events"
+              href="/events"
               className="btn btn-primary rounded-full px-7 shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/30"
             >
               Explore Events

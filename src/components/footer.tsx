@@ -17,12 +17,12 @@ import {
 const quickLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
-  { name: "Upcoming Events", href: "/upcoming-events" },
+  { name: "Upcoming Events", href: "/events" },
   { name: "Contact", href: "/contact" },
 ];
 
 const getInvolved = [
-  { name: "Create an Event", href: "/create-event" },
+  { name: "Create an Event", href: "/events/create" },
   { name: "Manage Events", href: "/manage-events" },
   { name: "Joined Events", href: "/joined-events" },
   { name: "Login / Register", href: "/login" },

@@ -13,7 +13,7 @@ import {
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },
   {
-    href: "/upcoming-events",
+    href: "/events",
     label: "Upcoming Events",
     icon: HiOutlineCalendarDays,
   },
