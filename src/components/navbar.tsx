@@ -187,9 +187,9 @@ export default function Navbar() {
 
                   {/* Join Event */}
                   <li>
-                    <Link href="/events">
+                    <Link href="/events/joined-events">
                       <HiOutlineUserGroup className="text-lg" />
-                      Join Event
+                      Joined Event
                     </Link>
                   </li>
 

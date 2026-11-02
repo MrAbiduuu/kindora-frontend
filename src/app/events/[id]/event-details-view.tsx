@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import {
   HiCheckBadge,
   HiLink,
@@ -9,9 +10,7 @@ import {
   HiOutlineMapPin,
   HiOutlineUserGroup,
 } from "react-icons/hi2";
-
-// Attached automatically from the current session (no auth flow yet)
-const ORGANIZER_SESSION_EMAIL = "dewan.abid.02.2006@gmail.com";
+import { authClient } from "@/lib/auth-client";
 
 const API_URL = "http://localhost:5000/events";
 
@@ -27,6 +26,7 @@ type EventDetails = {
   organizerEmail?: string;
   volunteerGuidelines?: string[];
   volunteers?: string[];
+  volunteerEmails?: string[];
 };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -42,38 +42,64 @@ const initialsOf = (value: string) => {
 export default function EventDetailsView({ event }: { event: EventDetails }) {
   const shouldReduceMotion = useReducedMotion();
 
+  // Current logged-in user drives the join flow.
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  const userEmail = session?.user?.email ?? null;
+  const userFirstName = (session?.user?.name ?? "").trim().split(/\s+/)[0];
+
   const [volunteers, setVolunteers] = useState<string[]>(event.volunteers ?? []);
-  const [joinState, setJoinState] = useState<"idle" | "loading" | "joined" | "error">(
-    (event.volunteers ?? []).includes(ORGANIZER_SESSION_EMAIL) ? "joined" : "idle",
+  const [volunteerEmails, setVolunteerEmails] = useState<string[]>(
+    event.volunteerEmails ?? [],
   );
+  // Legacy events may contain the email directly inside `volunteers`.
+  const [joined, setJoined] = useState(
+    Boolean(
+      userEmail &&
+        ((event.volunteerEmails ?? []).some(
+          (value) => value === userEmail,
+        ) ||
+          (event.volunteers ?? []).includes(userEmail)),
+    ),
+  );
+  const [joinState, setJoinState] = useState<"idle" | "loading" | "error">("idle");
   const [copied, setCopied] = useState(false);
 
   const eventId = event._id ?? event.id;
   const formattedDate = `${formatWeekday(event.date)}, ${formatDay(event.date)}`;
 
   const imageURL = event.thumbnail;
-  const organizerEmail = event.organizerEmail ?? ORGANIZER_SESSION_EMAIL;
+  const organizerEmail = event.organizerEmail ?? "";
   const guidelines = event.volunteerGuidelines ?? [];
 
   const handleJoin = async (formEvent: FormEvent<HTMLButtonElement>) => {
     formEvent.preventDefault();
-    if (joinState === "joined" || joinState === "loading") return;
+    if (joined || !userEmail || joinState === "loading") return;
 
     setJoinState("loading");
     try {
       const res = await fetch(`${API_URL}/${eventId}/join`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: ORGANIZER_SESSION_EMAIL }),
+        body: JSON.stringify({ email: userEmail, name: session?.user?.name }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message ?? "Failed to join");
       setVolunteers(Array.isArray(data.volunteers) ? data.volunteers : []);
-      setJoinState("joined");
+      setVolunteerEmails(
+        Array.isArray(data.volunteerEmails) ? data.volunteerEmails : [],
+      );
+      setJoined(true);
     } catch {
       setJoinState("error");
     }
   };
+
+  const youMarked = (volunteer: string) =>
+    Boolean(
+      userEmail &&
+        (volunteer === userEmail ||
+          (joined && volunteer === userFirstName && userFirstName)),
+    );
 
   const handleCopyLink = async () => {
     try {
@@ -172,7 +198,22 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
             </motion.span>
           </motion.button>
 
-          {joinState === "joined" ? (
+          {sessionPending ? (
+            <button
+              type="button"
+              disabled
+              className="inline-flex cursor-wait items-center gap-2.5 rounded-full bg-base-200 px-7 py-3.5 text-sm font-semibold text-base-content/60"
+            >
+              Checking session…
+            </button>
+          ) : !userEmail ? (
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-colors duration-300 hover:bg-primary/85"
+            >
+              Log in to Join
+            </Link>
+          ) : joined ? (
             <motion.button
               type="button"
               initial={shouldReduceMotion ? {} : { scale: 0.9 }}
@@ -255,9 +296,11 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold text-base-content">
-                  {displayName(organizerEmail)}
+                  {organizerEmail ? displayName(organizerEmail) : "Kindora Team"}
                 </p>
-                <p className="truncate text-xs text-base-content/70">{organizerEmail}</p>
+                <p className="truncate text-xs text-base-content/70">
+                  {organizerEmail || "Organizer info not provided"}
+                </p>
               </div>
             </div>
             <div className="mt-4 flex items-center gap-2.5 border-t border-base-300 pt-4 text-xs font-medium text-base-content/55">
@@ -286,9 +329,9 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                     No volunteers yet. Be the first to join this cause!
                   </motion.p>
                 ) : (
-                  volunteers.map((email) => (
+                  volunteers.map((volunteer) => (
                     <motion.div
-                      key={email}
+                      key={volunteer}
                       layout
                       initial={shouldReduceMotion ? {} : { opacity: 0, x: -14 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -297,10 +340,12 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                       className="flex items-center gap-3 rounded-2xl px-2 py-2 transition-colors duration-300 hover:bg-base-100"
                     >
                       <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary/30 text-xs font-bold text-base-content/55">
-                        {initialsOf(email)}
+                        {initialsOf(volunteer)}
                       </span>
-                      <p className="truncate text-sm font-medium text-base-content">{email}</p>
-                      {email === ORGANIZER_SESSION_EMAIL && (
+                      <p className="truncate text-sm font-medium text-base-content">
+                        {volunteer.includes("@") ? displayName(volunteer) : volunteer}
+                      </p>
+                      {youMarked(volunteer) && (
                         <span className="ml-auto shrink-0 rounded-full bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-success ring-1 ring-success/20">
                           You
                         </span>
