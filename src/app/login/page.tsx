@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
+  AlertCircle,
   Heart,
   Mail,
   Lock,
@@ -11,19 +12,45 @@ import {
   ArrowRight,
   HandHeart,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { friendlyAuthError } from "@/lib/auth-errors";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    alert("Login UI is ready! Authentication will be added later.");
+    const data = new FormData(e.currentTarget);
+    const rememberMe = data.get("rememberMe") === "on";
+
+    setLoading(true);
+    setError(null);
+
+    const { error: signInError } = await authClient.signIn.email({
+      email: formData.email.trim(),
+      password: formData.password,
+      rememberMe,
+    });
+
+    if (signInError) {
+      setError(friendlyAuthError(signInError.code ?? signInError.message ?? ""));
+      setLoading(false);
+      return;
+    }
+
+    // Session cookie is set — user was verified against the kindora database.
+    router.push("/events");
+    router.refresh();
   };
 
   return (
@@ -183,16 +210,30 @@ export default function LoginPage() {
 
               {/* Remember Me */}
               <label className="flex items-center gap-3 text-sm text-[#8C7B73]">
-                <input type="checkbox" className="h-4 w-4 accent-[#E83B5B]" />
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  defaultChecked
+                  className="h-4 w-4 accent-[#E83B5B]"
+                />
                 Remember me
               </label>
+
+              {/* Error feedback */}
+              {error && (
+                <div className="flex items-start gap-2.5 rounded-xl bg-error/10 px-4 py-3 text-sm font-medium text-error">
+                  <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                  {error}
+                </div>
+              )}
 
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#E83B5B] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/20 transition hover:-translate-y-0.5 hover:bg-[#D92E4F]"
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#E83B5B] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/20 transition hover:-translate-y-0.5 hover:bg-[#D92E4F] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
-                Log In
+                {loading ? "Logging you in…" : "Log In"}
                 <ArrowRight size={18} />
               </button>
             </form>

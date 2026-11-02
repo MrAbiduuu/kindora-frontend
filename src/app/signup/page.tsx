@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
+  AlertCircle,
   Heart,
   User,
   Mail,
@@ -12,10 +13,16 @@ import {
   ArrowRight,
   HandHeart,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { friendlyAuthError } from "@/lib/auth-errors";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,16 +30,36 @@ export default function SignupPage() {
     password: "",
     confirmPassword: "",
   });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match. Please check both fields.");
+      return;
+    }
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
-    alert("Sign up UI is ready! Authentication will be added later.");
+    setLoading(true);
+    setError(null);
+
+    const { error: signUpError } = await authClient.signUp.email({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      password: formData.password,
+    });
+
+    if (signUpError) {
+      setError(friendlyAuthError(signUpError.code ?? signUpError.message ?? ""));
+      setLoading(false);
+      return;
+    }
+
+    // Signed in automatically — the user lives in the kindora "user" collection.
+    router.push("/events");
+    router.refresh();
   };
 
   return (
@@ -278,12 +305,21 @@ export default function SignupPage() {
                 </span>
               </label>
 
+              {/* Error feedback */}
+              {error && (
+                <div className="flex items-start gap-2.5 rounded-xl bg-error/10 px-4 py-3 text-sm font-medium text-error">
+                  <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                  {error}
+                </div>
+              )}
+
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#E83B5B] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#E83B5B]/20 transition hover:-translate-y-0.5 hover:bg-[#D92E4F]"
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/85 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
-                Create Account
+                {loading ? "Creating your account…" : "Create Account"}
                 <ArrowRight size={18} />
               </button>
             </form>
