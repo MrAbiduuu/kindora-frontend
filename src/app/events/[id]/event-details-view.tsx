@@ -11,6 +11,7 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 
 const API_URL = "http://localhost:5000/events";
 
@@ -47,21 +48,23 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
   const userEmail = session?.user?.email ?? null;
   const userFirstName = (session?.user?.name ?? "").trim().split(/\s+/)[0];
 
-  const [volunteers, setVolunteers] = useState<string[]>(event.volunteers ?? []);
-  const [volunteerEmails, setVolunteerEmails] = useState<string[]>(
+  const [volunteers, setVolunteers] = useState<string[]>(
+    event.volunteers ?? [],
+  );
+  const [, setVolunteerEmails] = useState<string[]>(
     event.volunteerEmails ?? [],
   );
   // Legacy events may contain the email directly inside `volunteers`.
   const [joined, setJoined] = useState(
     Boolean(
       userEmail &&
-        ((event.volunteerEmails ?? []).some(
-          (value) => value === userEmail,
-        ) ||
-          (event.volunteers ?? []).includes(userEmail)),
+      ((event.volunteerEmails ?? []).some((value) => value === userEmail) ||
+        (event.volunteers ?? []).includes(userEmail)),
     ),
   );
-  const [joinState, setJoinState] = useState<"idle" | "loading" | "error">("idle");
+  const [joinState, setJoinState] = useState<"idle" | "loading" | "error">(
+    "idle",
+  );
   const [copied, setCopied] = useState(false);
 
   const eventId = event._id ?? event.id;
@@ -97,8 +100,8 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
   const youMarked = (volunteer: string) =>
     Boolean(
       userEmail &&
-        (volunteer === userEmail ||
-          (joined && volunteer === userFirstName && userFirstName)),
+      (volunteer === userEmail ||
+        (joined && volunteer === userFirstName && userFirstName)),
     );
 
   const handleCopyLink = async () => {
@@ -113,14 +116,20 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40, scale: shouldReduceMotion ? 1 : 0.98 }}
+      initial={{
+        opacity: 0,
+        y: shouldReduceMotion ? 0 : 40,
+        scale: shouldReduceMotion ? 1 : 0.98,
+      }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, ease: EASE }}
       className="overflow-hidden rounded-[2rem] border border-base-300 bg-base-100 shadow-sm"
     >
       {/* ---------- Hero ---------- */}
       <div className="relative h-72 sm:h-96">
-        <img
+        <Image
+          width={200}
+          height={200}
           src={imageURL}
           alt={event.title}
           className="h-full w-full object-cover"
@@ -194,7 +203,11 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
               animate={copied ? { rotate: copied ? 15 : 0 } : { rotate: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 12 }}
             >
-              {copied ? <HiCheckBadge className="text-lg text-primary" /> : <HiLink className="text-lg" />}
+              {copied ? (
+                <HiCheckBadge className="text-lg text-primary" />
+              ) : (
+                <HiLink className="text-lg" />
+              )}
             </motion.span>
           </motion.button>
 
@@ -261,11 +274,15 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
           <h2 className="font-(family-name:--font-ibm-plex-serif) text-2xl font-bold tracking-tight text-base-content">
             About this Initiative
           </h2>
-          <p className="mt-4 text-sm leading-7 text-base-content/70">{event.description}</p>
+          <p className="mt-4 text-sm leading-7 text-base-content/70">
+            {event.description}
+          </p>
 
           {guidelines.length > 0 && (
             <>
-              <h3 className={`mt-9 ${volunteerLabelStyle}`}>Volunteer Guidelines</h3>
+              <h3 className={`mt-9 ${volunteerLabelStyle}`}>
+                Volunteer Guidelines
+              </h3>
               <ul className="mt-4 space-y-3.5">
                 {guidelines.map((guideline, index) => (
                   <motion.li
@@ -273,7 +290,11 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                     initial={shouldReduceMotion ? {} : { opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, ease: EASE, delay: 0.05 * index }}
+                    transition={{
+                      duration: 0.4,
+                      ease: EASE,
+                      delay: 0.05 * index,
+                    }}
                     className="flex items-start gap-3 text-sm leading-6 text-base-content/70"
                   >
                     <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" />
@@ -296,7 +317,9 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold text-base-content">
-                  {organizerEmail ? displayName(organizerEmail) : "Kindora Team"}
+                  {organizerEmail
+                    ? displayName(organizerEmail)
+                    : "Kindora Team"}
                 </p>
                 <p className="truncate text-xs text-base-content/70">
                   {organizerEmail || "Organizer info not provided"}
@@ -343,7 +366,9 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
                         {initialsOf(volunteer)}
                       </span>
                       <p className="truncate text-sm font-medium text-base-content">
-                        {volunteer.includes("@") ? displayName(volunteer) : volunteer}
+                        {volunteer.includes("@")
+                          ? displayName(volunteer)
+                          : volunteer}
                       </p>
                       {youMarked(volunteer) && (
                         <span className="ml-auto shrink-0 rounded-full bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-success ring-1 ring-success/20">
@@ -365,7 +390,20 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
 /* ---------- helpers ---------- */
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const formatWeekday = (dateValue: string) => {
   const parsed = parseDateParts(dateValue);
@@ -374,7 +412,9 @@ const formatWeekday = (dateValue: string) => {
 
 const formatDay = (dateValue: string) => {
   const parsed = parseDateParts(dateValue);
-  return parsed ? `${MONTHS[parsed.month]} ${parsed.day}, ${parsed.year}` : null;
+  return parsed
+    ? `${MONTHS[parsed.month]} ${parsed.day}, ${parsed.year}`
+    : null;
 };
 
 /**

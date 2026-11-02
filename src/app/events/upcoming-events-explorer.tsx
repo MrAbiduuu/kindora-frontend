@@ -135,7 +135,9 @@ export default function UpcomingEventsExplorer({
           <>
             {" "}
             in{" "}
-            <span className="font-semibold text-base-content">{activeType}</span>
+            <span className="font-semibold text-base-content">
+              {activeType}
+            </span>
           </>
         )}
         {query.trim() && (
@@ -175,7 +177,7 @@ export default function UpcomingEventsExplorer({
       )}
 
       {/* Bottom accent */}
-      <div className="mt-12 h-px w-full bg-gradient-to-r from-base-300 via-base-300 to-transparent" />
+      <div className="mt-12 h-px w-full bg-linear-to-r from-base-300 via-base-300 to-transparent" />
     </div>
   );
 }

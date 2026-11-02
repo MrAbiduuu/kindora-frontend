@@ -268,8 +268,8 @@ export default function AboutPage() {
       {/* Closing CTA */}
       <section className="px-5 py-20 sm:px-8 lg:py-24">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-[#E83B5B] px-7 py-16 text-center text-white sm:px-12">
-          <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full border-[35px] border-white/10" />
-          <div className="absolute -bottom-24 -right-16 h-72 w-72 rounded-full border-[40px] border-white/10" />
+          <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full border-35 border-white/10" />
+          <div className="absolute -bottom-24 -right-16 h-72 w-72 rounded-full border-40 border-white/10" />
 
           <div className="relative">
             <Sparkles size={32} className="mx-auto mb-5" />

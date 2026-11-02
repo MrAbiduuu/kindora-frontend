@@ -254,7 +254,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                   <HiCheckCircle className="text-6xl text-success" />
                 </motion.div>
 
-                <h2 className="mt-8 font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold tracking-tight text-base-content sm:text-4xl">
+                <h2 className="mt-8 font-(family-name:--font-ibm-plex-serif) text-3xl font-bold tracking-tight text-base-content sm:text-4xl">
                   Your event is <span className="text-primary">live!</span>
                 </h2>
                 <p className="mt-3 max-w-md text-sm leading-7 text-base-content/70">
@@ -323,7 +323,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 {/* Heading */}
                 <motion.h1
                   variants={itemVariants}
-                  className="font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
+                  className="font-(family-name:--font-ibm-plex-serif) text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
                 >
                   Create a <span className="text-primary">Community</span> Event
                 </motion.h1>
@@ -425,7 +425,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                               setDate(event.target.value);
                               setError(null);
                             }}
-                            className={`${inputClass} pr-4 [color-scheme:light]`}
+                            className={`${inputClass} pr-4 scheme-light`}
                           />
                         </div>
                         <p className="mt-2.5 text-xs text-base-content/40">
@@ -579,7 +579,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                 {/* Bottom accent */}
                 <motion.div
                   variants={itemVariants}
-                  className="mt-10 h-px w-full bg-gradient-to-r from-primary/40 via-base-300 to-transparent"
+                  className="mt-10 h-px w-full bg-linear-to-r from-primary/40 via-base-300 to-transparent"
                 />
               </motion.div>
             )}
