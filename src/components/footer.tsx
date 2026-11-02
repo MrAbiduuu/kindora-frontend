@@ -23,8 +23,8 @@ const quickLinks = [
 
 const getInvolved = [
   { name: "Create an Event", href: "/events/create" },
-  { name: "Manage Events", href: "/manage-events" },
-  { name: "Joined Events", href: "/joined-events" },
+  { name: "Manage Events", href: "/events/manage-events" },
+  { name: "Joined Events", href: "/events/joined-events" },
   { name: "Login / Register", href: "/login" },
 ];
 
