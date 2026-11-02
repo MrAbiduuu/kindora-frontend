@@ -23,9 +23,7 @@ import {
   HiOutlineSparkles,
   HiOutlineTrash,
 } from "react-icons/hi2";
-
-// Attached automatically from the current session (no editable field)
-const ORGANIZER_EMAIL = "dewan.abid.02.2006@gmail.com";
+import { authClient } from "@/lib/auth-client";
 
 const EVENT_TYPES = [
   { value: "Donation", icon: HiOutlineHeart },
@@ -80,7 +78,9 @@ const labelClass =
 
 const CreateEventForm = ({ today }: { today: string }) => {
   const shouldReduceMotion = useReducedMotion();
+  const { data: session, isPending } = authClient.useSession();
 
+  const organizerEmail = session?.user?.email;
   const [title, setTitle] = useState("");
   const [type, setType] = useState<string>(EVENT_TYPES[0].value);
   const [date, setDate] = useState("");
@@ -95,42 +95,74 @@ const CreateEventForm = ({ today }: { today: string }) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const res = await fetch(`http://localhost:5000/events/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        type,
-        date,
-        location,
-        thumbnail,
-        description,
-      }),
-    });
+    if (isPending) {
+      setError("Please wait while we verify your account.");
+      return;
+    }
 
-    const data = await res.json();
-    console.log(data);
+    if (!organizerEmail) {
+      setError("Please log in before publishing an event.");
+      return;
+    }
+
     if (!title.trim()) {
       setError("Please give your event a title.");
       return;
     }
+
     if (!date || date < today) {
       setError("Event date must be today or in the future.");
       return;
     }
+
     if (!location.trim()) {
       setError("Please add a location or venue.");
       return;
     }
+
+    if (!thumbnail.trim()) {
+      setError("Please add a thumbnail image URL.");
+      return;
+    }
+
     if (description.trim().length < 20) {
       setError("Please describe the event in at least 20 characters.");
       return;
     }
 
-    setError(null);
-    setPublished(true);
+    try {
+      const res = await fetch("http://localhost:5000/events/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          type,
+          date,
+          location,
+          thumbnail,
+          description,
+          organizerEmail,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to publish event.");
+      }
+
+      console.log(data);
+      setError(null);
+      setPublished(true);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while publishing the event.",
+      );
+    }
   };
 
   const resetForm = () => {
@@ -293,8 +325,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                   variants={itemVariants}
                   className="font-[family-name:var(--font-ibm-plex-serif)] text-3xl font-bold leading-tight tracking-tight text-base-content sm:text-4xl md:text-5xl"
                 >
-                  Create a <span className="text-primary">Community</span>{" "}
-                  Event
+                  Create a <span className="text-primary">Community</span> Event
                 </motion.h1>
 
                 <motion.p
@@ -406,8 +437,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
                     {/* Location */}
                     <div>
                       <p className={labelClass}>
-                        Location / Venue{" "}
-                        <span className="text-primary">*</span>
+                        Location / Venue <span className="text-primary">*</span>
                       </p>
                       <div className="group relative mt-2.5">
                         <HiOutlineMapPin className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-lg text-base-content/40 transition-colors duration-300 group-focus-within:text-primary" />
@@ -498,7 +528,9 @@ const CreateEventForm = ({ today }: { today: string }) => {
                         Organizer Email attached:
                       </span>
                       <span className="inline-flex items-center gap-2.5 text-sm font-semibold text-base-content">
-                        {ORGANIZER_EMAIL}
+                        {isPending
+                          ? "Loading..."
+                          : organizerEmail || "Not logged in"}
                         <HiLockClosed className="text-sm text-base-content/40" />
                       </span>
                     </div>
