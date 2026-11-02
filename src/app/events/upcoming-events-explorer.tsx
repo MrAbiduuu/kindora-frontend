@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { format, parse } from "date-fns";
 import {
@@ -12,7 +13,6 @@ import {
 } from "react-icons/hi2";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 // Shape returned by the backend (kindora-backend -> /events/upcoming)
 export type CommunityEvent = {
