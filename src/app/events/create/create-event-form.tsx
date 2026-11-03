@@ -24,6 +24,7 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const EVENT_TYPES = [
   { value: "Donation", icon: HiOutlineHeart },
@@ -153,15 +154,23 @@ const CreateEventForm = ({ today }: { today: string }) => {
         throw new Error(data.message || "Failed to publish event.");
       }
 
-      console.log(data);
       setError(null);
       setPublished(true);
+
+      toast.success("Event created successfully!", {
+        description: `${title} has been published.`,
+      });
     } catch (error) {
-      setError(
+      const message =
         error instanceof Error
           ? error.message
-          : "Something went wrong while publishing the event.",
-      );
+          : "Something went wrong while publishing the event.";
+
+      setError(message);
+
+      toast.error("Failed to publish event", {
+        description: message,
+      });
     }
   };
 
