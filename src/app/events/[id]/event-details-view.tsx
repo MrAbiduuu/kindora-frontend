@@ -138,42 +138,6 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
       // clipboard unavailable — ignore
     }
   };
-  const handleLeave = async () => {
-    if (!eventId || !userEmail) return;
-
-    try {
-      setJoinState("loading");
-
-      const res = await fetch(`${API_URL}/${eventId}/leave`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: userEmail,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to leave event");
-      }
-
-      setJoined(false);
-      setVolunteers((prev) => prev.filter((email) => email !== userEmail));
-
-      setVolunteerEmails((prev) => prev.filter((email) => email !== userEmail));
-
-      setJoinState("idle");
-      toast.success("You have left the event");
-    } catch (error) {
-      setJoinState("error");
-      toast.error(
-        error instanceof Error ? error.message : "Something went wrong",
-      );
-    }
-  };
 
   return (
     <motion.article

@@ -7,9 +7,6 @@ const db = client.db("kindora");
 
 // Only enable social providers when the env credentials actually exist,
 // otherwise the auth route handler crashes on every request.
-const googleConfigured = Boolean(
-  process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET,
-);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {

@@ -8,6 +8,7 @@ import {
   MdLocationOn,
   MdPersonOutline,
 } from "react-icons/md";
+import Image from "next/image";
 
 type Event = {
   _id: string;
@@ -148,7 +149,9 @@ export default function UpcomingEvents() {
                 {/* Thumbnail */}
                 <div className="relative h-48 overflow-hidden bg-base-300">
                   {event.thumbnail ? (
-                    <img
+                    <Image
+                      width={100}
+                      height={200}
                       src={event.thumbnail}
                       alt={event.title}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

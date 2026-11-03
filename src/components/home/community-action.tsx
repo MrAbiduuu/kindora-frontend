@@ -120,7 +120,7 @@ export default function CommunityAction() {
         {/* Carousel */}
         <div
           ref={carouselRef}
-          className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-4 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
           {communityActions.map((action, index) => (
             <div
@@ -137,7 +137,7 @@ export default function CommunityAction() {
               />
 
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/20 to-transparent" />
 
               {/* Content */}
               <div className="absolute inset-x-0 bottom-0 p-4">
