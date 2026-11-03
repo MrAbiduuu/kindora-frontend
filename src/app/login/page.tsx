@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { friendlyAuthError } from "@/lib/auth-errors";
 import { toast } from "sonner";
-import { Zoom } from "react-toastify";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -60,6 +60,12 @@ export default function LoginPage() {
     router.refresh();
 
     toast.success(`Welcome back${firstName ? ` ${firstName}` : " User"}!`);
+  };
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+    toast.success("Successfully Logged in With Google");
   };
 
   return (
@@ -246,6 +252,30 @@ export default function LoginPage() {
                 <ArrowRight size={18} />
               </button>
             </form>
+            {/* Google Login */}
+            <div className="mt-6">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[#EEDFD1]" />
+                </div>
+
+                <div className="relative flex justify-center">
+                  <span className="bg-base-100 px-4 text-xs text-[#A8958C]">
+                    OR CONTINUE WITH
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-3 rounded-xl border border-[#EEDFD1] bg-white py-3.5 text-sm font-semibold text-[#6B5146] transition hover:bg-[#FFF8F5] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <FcGoogle size={21} />
+                Continue with Google
+              </button>
+            </div>
 
             {/* Signup Link */}
             <div className="mt-9 rounded-2xl bg-[#F9E8E8]/70 p-5 text-center">

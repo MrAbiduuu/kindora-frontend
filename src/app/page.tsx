@@ -2,6 +2,8 @@ import Banner from "@/components/home/banner";
 import Values from "@/components/home/values";
 import Features from "@/components/home/features";
 import Subscribe from "@/components/home/subscribe";
+import UpcomingEvents from "@/components/home/upcoming-event";
+import CommunityAction from "@/components/home/community-action";
 
 export default function Home() {
   return (
@@ -10,6 +12,8 @@ export default function Home() {
         <Banner />
         <Values />
         <Features />
+        <UpcomingEvents />
+        <CommunityAction />
         <Subscribe />
       </main>
     </div>

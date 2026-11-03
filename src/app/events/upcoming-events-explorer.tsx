@@ -11,6 +11,7 @@ import {
   HiOutlineSparkles,
   HiXMark,
 } from "react-icons/hi2";
+import { MdArrowOutward } from "react-icons/md";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
@@ -250,9 +251,12 @@ const EventCard = ({
         <div className="mt-auto pt-6">
           <div className="h-px w-full bg-linear-to-r from-primary/30 via-base-300 to-transparent" />
         </div>
-        <div className="mt-4 flex items-center justify-center gap-3">
-          <Link href={`/events/${event._id}`}>
-            <Button>Check event details</Button>
+        <div className="mt-5 flex justify-center">
+          <Link href={`/events/${event._id}`} className="w-full">
+            <Button className="group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary p-5 font-semibold text-primary-content shadow-md transition-all duration-300 hover:shadow-lg">
+              <span>Check Event Details</span>
+              <MdArrowOutward className="text-lg" />
+            </Button>
           </Link>
         </div>
       </div>

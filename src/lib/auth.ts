@@ -18,15 +18,17 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  ...(googleConfigured
-    ? {
-        socialProviders: {
-          google: {
-            enabled: true,
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-          },
-        },
-      }
-    : {}),
+  socialProviders: {
+    google: {
+      enabled: true,
+      clientId: process.env.GOOGLE_CLIENT_ID! as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET! as string,
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
+    },
+  },
 });

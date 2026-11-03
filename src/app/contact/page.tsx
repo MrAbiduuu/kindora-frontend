@@ -2,26 +2,24 @@
 
 import { FormEvent } from "react";
 import { Mail, MapPin, Send, MessageCircle, Heart } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ContactUs() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const name = data.get("name");
-    const email = data.get("email");
-    const subject = data.get("subject");
-    const message = data.get("message");
+    const feedback = {
+      name: data.get("name"),
+      email: data.get("email"),
+      subject: data.get("subject"),
+      message: data.get("message"),
+    };
 
-    const mailto = `mailto:dewan.abid.02.2006@gmail.com?subject=${encodeURIComponent(
-      String(subject),
-    )}&body=${encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-    )}`;
-
-    window.location.href = mailto;
+    toast.success("Feedback Sent Successfully");
+    form.reset();
   };
 
   return (
@@ -84,7 +82,9 @@ export default function ContactUs() {
 
                 <div>
                   <h3 className="font-semibold">Our Location</h3>
-                  <p className="mt-1 text-sm text-base-content/70">Bangladesh</p>
+                  <p className="mt-1 text-sm text-base-content/70">
+                    Bangladesh
+                  </p>
                 </div>
               </div>
 
