@@ -62,10 +62,28 @@ export default function LoginPage() {
     toast.success(`Welcome back${firstName ? ` ${firstName}` : " User"}!`);
   };
   const handleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
-    toast.success("Successfully Logged in With Google");
+    try {
+      setLoading(true);
+      setError(null);
+
+      const { error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/events",
+        errorCallbackURL: "/login",
+      });
+
+      if (error) {
+        throw new Error(error.message || "Google login failed");
+      }
+    } catch (error) {
+      setLoading(false);
+
+      const message =
+        error instanceof Error ? error.message : "Unable to login with Google";
+
+      setError(message);
+      toast.error(message);
+    }
   };
 
   return (
