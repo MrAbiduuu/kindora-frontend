@@ -14,6 +14,7 @@ import {
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
+import { toast, Zoom } from "react-toastify";
 
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },
@@ -38,6 +39,17 @@ export default function Navbar() {
   const handleLogout = async () => {
     await authClient.signOut();
     router.push("/");
+    toast.error("Log Out Succefssfull", {
+      position: "bottom-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Zoom,
+    });
   };
 
   const userInitial =

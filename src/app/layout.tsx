@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { ToastContainer } from "react-toastify";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Navbar />
         {children}
         <Toaster />
+        <ToastContainer />
         <Footer />
       </body>
     </html>

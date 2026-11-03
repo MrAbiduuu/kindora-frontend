@@ -157,7 +157,7 @@ const CreateEventForm = ({ today }: { today: string }) => {
       setError(null);
       setPublished(true);
 
-      toast.success("Event created successfully!", {
+      toast.success("Event published successfully!", {
         description: `${title} has been published.`,
       });
     } catch (error) {

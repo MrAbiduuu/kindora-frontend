@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
+import { toast } from "sonner";
 
 const API_URL = "http://localhost:5000/events";
 
@@ -76,24 +77,48 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
 
   const handleJoin = async (formEvent: FormEvent<HTMLButtonElement>) => {
     formEvent.preventDefault();
+
     if (joined || !userEmail || joinState === "loading") return;
 
     setJoinState("loading");
+
     try {
       const res = await fetch(`${API_URL}/${eventId}/join`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail, name: session?.user?.name }),
+        body: JSON.stringify({
+          email: userEmail,
+          name: session?.user?.name,
+        }),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.message ?? "Failed to join");
+
+      if (!res.ok) {
+        throw new Error(data?.message ?? "Failed to join");
+      }
+
       setVolunteers(Array.isArray(data.volunteers) ? data.volunteers : []);
+
       setVolunteerEmails(
         Array.isArray(data.volunteerEmails) ? data.volunteerEmails : [],
       );
+
       setJoined(true);
-    } catch {
+      setJoinState("idle");
+
+      toast.success("Successfully joined!", {
+        description: "You're now registered as a volunteer for this event.",
+      });
+    } catch (error) {
       setJoinState("error");
+
+      toast.error("Unable to join event", {
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      });
     }
   };
 

@@ -15,6 +15,7 @@ import {
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { friendlyAuthError } from "@/lib/auth-errors";
+import { toast, Zoom } from "react-toastify";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,7 +44,9 @@ export default function LoginPage() {
     });
 
     if (signInError) {
-      setError(friendlyAuthError(signInError.code ?? signInError.message ?? ""));
+      setError(
+        friendlyAuthError(signInError.code ?? signInError.message ?? ""),
+      );
       setLoading(false);
       return;
     }
@@ -51,6 +54,17 @@ export default function LoginPage() {
     // Session cookie is set — user was verified against the kindora database.
     router.push("/events");
     router.refresh();
+    toast.success(`Welcome Back user`, {
+      position: "bottom-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Zoom,
+    });
   };
 
   return (
