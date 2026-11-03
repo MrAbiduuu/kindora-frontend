@@ -15,7 +15,8 @@ import {
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { friendlyAuthError } from "@/lib/auth-errors";
-import { toast, Zoom } from "react-toastify";
+import { toast } from "sonner";
+import { Zoom } from "react-toastify";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,20 +52,14 @@ export default function LoginPage() {
       return;
     }
 
-    // Session cookie is set — user was verified against the kindora database.
+    const { data: session } = await authClient.getSession();
+
+    const firstName = session?.user?.name?.trim().split(/\s+/)[0];
+
     router.push("/events");
     router.refresh();
-    toast.success(`Welcome Back user`, {
-      position: "bottom-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Zoom,
-    });
+
+    toast.success(`Welcome back${firstName ? ` ${firstName}` : " User"}!`);
   };
 
   return (

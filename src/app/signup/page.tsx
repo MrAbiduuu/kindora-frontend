@@ -12,10 +12,12 @@ import {
   EyeOff,
   ArrowRight,
   HandHeart,
+  Image as ImageIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { friendlyAuthError } from "@/lib/auth-errors";
+import { toast } from "sonner";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function SignupPage() {
 
   const [formData, setFormData] = useState({
     name: "",
+    imageUrl: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -47,12 +50,15 @@ export default function SignupPage() {
 
     const { error: signUpError } = await authClient.signUp.email({
       name: formData.name.trim(),
+      image: formData.imageUrl.trim() || undefined,
       email: formData.email.trim(),
       password: formData.password,
     });
 
     if (signUpError) {
-      setError(friendlyAuthError(signUpError.code ?? signUpError.message ?? ""));
+      setError(
+        friendlyAuthError(signUpError.code ?? signUpError.message ?? ""),
+      );
       setLoading(false);
       return;
     }
@@ -60,6 +66,7 @@ export default function SignupPage() {
     // Signed in automatically — the user lives in the kindora "user" collection.
     router.push("/events");
     router.refresh();
+    toast.success(`Account Created Successfully! Welcome to Kindora`);
   };
 
   return (
@@ -164,6 +171,43 @@ export default function SignupPage() {
                     className="w-full rounded-xl border border-[#EEDFD1] py-3.5 pl-11 pr-4 text-sm outline-none transition placeholder:text-[#B5A49B] focus:border-[#E83B5B] focus:ring-2 focus:ring-[#E83B5B]/10"
                   />
                 </div>
+              </div>
+              {/* Profile Image URL */}
+              <div>
+                <label
+                  htmlFor="imageUrl"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Profile Image URL
+                  <span className="ml-2 text-xs font-normal text-[#A8958C]">
+                    (Optional)
+                  </span>
+                </label>
+
+                <div className="relative">
+                  <ImageIcon
+                    size={18}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A8958C]"
+                  />
+
+                  <input
+                    id="imageUrl"
+                    type="url"
+                    placeholder="https://example.com/profile.jpg"
+                    value={formData.imageUrl}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        imageUrl: e.target.value,
+                      })
+                    }
+                    className="w-full rounded-xl border border-[#EEDFD1] py-3.5 pl-11 pr-4 text-sm outline-none transition placeholder:text-[#B5A49B] focus:border-[#E83B5B] focus:ring-2 focus:ring-[#E83B5B]/10"
+                  />
+                </div>
+
+                <p className="mt-2 text-xs text-[#A8958C]">
+                  Add a direct image URL to personalize your Kindora profile.
+                </p>
               </div>
 
               {/* Email */}

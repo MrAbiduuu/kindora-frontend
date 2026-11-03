@@ -39,7 +39,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <Navbar />
         {children}
-        <Toaster />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            classNames: {
+              toast:
+                "group flex items-start gap-3 rounded-xl border bg-white p-4 shadow-xl dark:bg-zinc-900",
+              title: "text-sm font-bold text-zinc-900 dark:text-white",
+              description: "text-xs text-zinc-500 dark:text-zinc-400",
+
+              success: "border-green-500",
+              error: "border-red-500",
+
+              actionButton: "rounded-lg bg-blue-600 px-3 py-1.5 text-white",
+              cancelButton: "rounded-lg bg-zinc-200 px-3 py-1.5 text-zinc-700",
+            },
+          }}
+        />
         <ToastContainer />
         <Footer />
       </body>

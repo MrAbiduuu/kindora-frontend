@@ -1,7 +1,14 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { HiArrowRight, HiOutlineCalendarDays, HiOutlineExclamationTriangle, HiOutlineSparkles } from "react-icons/hi2";
-import UpcomingEventsExplorer, { type CommunityEvent } from "./upcoming-events-explorer";
+import {
+  HiArrowRight,
+  HiOutlineCalendarDays,
+  HiOutlineExclamationTriangle,
+  HiOutlineSparkles,
+} from "react-icons/hi2";
+import UpcomingEventsExplorer, {
+  type CommunityEvent,
+} from "./upcoming-events-explorer";
 
 const API_URL = "http://localhost:5000/events/upcoming";
 
@@ -68,12 +75,6 @@ function UpcomingEventsHeader() {
   );
 }
 
-/*
- * Fetching lives here instead of in the page's default export:
- * with Cache Components the page component is part of the prerendered
- * shell, so request-dependent fetches must sit behind this <Suspense>
- * boundary as an async Server Component (the `await` is the suspension point).
- */
 async function UpcomingEvents() {
   let events: CommunityEvent[] | null = null;
 

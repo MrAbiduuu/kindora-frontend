@@ -14,7 +14,7 @@ import {
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
-import { toast, Zoom } from "react-toastify";
+import { toast } from "sonner";
 
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },
@@ -39,17 +39,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     await authClient.signOut();
     router.push("/");
-    toast.error("Log Out Succefssfull", {
-      position: "bottom-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Zoom,
-    });
+    toast.error("Log Out Succefssfull");
   };
 
   const userInitial =
@@ -138,6 +128,8 @@ export default function Navbar() {
                     <Image
                       src={user.image}
                       alt={user.name || "User"}
+                      width={36}
+                      height={36}
                       className="h-9 w-9 rounded-full border border-base-300 object-cover"
                     />
                   ) : (
@@ -160,9 +152,14 @@ export default function Navbar() {
                     <div className="flex items-center gap-3 rounded-xl">
                       {user.image ? (
                         <Image
-                          src={user.image}
-                          alt={user.name || "User"}
-                          className="h-11 w-11 rounded-full object-cover"
+                          src={
+                            session?.user?.image ||
+                            "https://www.shareicon.net/data/2016/09/15/829459_man_512x512.png"
+                          }
+                          alt="Profile"
+                          width={40}
+                          height={40}
+                          className="h-10 w-10 rounded-full object-cover"
                         />
                       ) : (
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-content">

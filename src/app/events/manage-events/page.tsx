@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { format, parse } from "date-fns";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 interface Event {
   _id: string;
@@ -142,25 +143,31 @@ export default function ManageEvents() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to update the event.");
+      if (!res.ok)
+        throw new Error(data.message || "Failed to update the event.");
 
       setEvents((prev) =>
         prev.map((ev) =>
           ev._id === editing._id ? { ...ev, ...editForm } : ev,
         ),
       );
+      toast.success("Event edited successfully!");
       closeEdit();
     } catch (err) {
       setEditError(
-        err instanceof Error ? err.message : "Something went wrong while saving.",
+        err instanceof Error
+          ? err.message
+          : "Something went wrong while saving.",
       );
+      toast.error("Failed to edit event");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (event: Event) => {
-    if (!window.confirm(`Delete "${event.title}"? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete "${event.title}"? This cannot be undone.`))
+      return;
 
     setDeletingId(event._id);
     try {
@@ -171,13 +178,20 @@ export default function ManageEvents() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to delete the event.");
+      if (!res.ok)
+        throw new Error(data.message || "Failed to delete the event.");
 
       setEvents((prev) => prev.filter((ev) => ev._id !== event._id));
+
+      toast.success("Event deleted successfully!");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Something went wrong while deleting.",
+        err instanceof Error
+          ? err.message
+          : "Something went wrong while deleting.",
       );
+
+      toast.error("Failed to edit event");
     } finally {
       setDeletingId(null);
     }
