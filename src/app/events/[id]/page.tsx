@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { HiArrowLeft, HiOutlineExclamationTriangle } from "react-icons/hi2";
 import EventDetailsView from "./event-details-view";
-
-const API_URL = "http://localhost:5000/events";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export const metadata = {
   title: "Event Details — Kindora",
@@ -45,11 +45,15 @@ async function EventDetailsFetcher({
 }) {
   const { id } = await params;
 
+  const jwtToken = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const token = jwtToken?.token;
   let event = null;
   try {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await fetch(`http://localhost:5000/events/${id}`, {
       headers: {
-        authorization: "User logged in",
+        authorization: `Bearer ${token}`,
       },
     });
     if (!res.ok) throw new Error(`Request failed with status ${res.status}`);

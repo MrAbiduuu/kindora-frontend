@@ -25,6 +25,7 @@ import {
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const EVENT_TYPES = [
   { value: "Donation", icon: HiOutlineHeart },
@@ -130,12 +131,13 @@ const CreateEventForm = ({ today }: { today: string }) => {
       setError("Please describe the event in at least 20 characters.");
       return;
     }
-
+    const token = await getTokenFromClient;
     try {
       const res = await fetch("http://localhost:5000/events/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Brarer ${token}`,
         },
         body: JSON.stringify({
           title,
