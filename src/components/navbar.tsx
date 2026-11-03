@@ -16,7 +16,6 @@ import {
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { LucideCircleUser } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },

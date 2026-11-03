@@ -47,7 +47,11 @@ async function EventDetailsFetcher({
 
   let event = null;
   try {
-    const res = await fetch(`${API_URL}/${id}`);
+    const res = await fetch(`${API_URL}/${id}`, {
+      headers: {
+        authorization: "User logged in",
+      },
+    });
     if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
     event = await res.json();
   } catch {

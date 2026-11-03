@@ -150,8 +150,8 @@ export default function UpcomingEvents() {
                 <div className="relative h-48 overflow-hidden bg-base-300">
                   {event.thumbnail ? (
                     <Image
-                      width={100}
-                      height={200}
+                      width={400}
+                      height={250}
                       src={event.thumbnail}
                       alt={event.title}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

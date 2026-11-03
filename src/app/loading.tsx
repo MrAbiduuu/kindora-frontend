@@ -1,12 +1,12 @@
 export default function Loading() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#FFF9F5] px-4">
+    <div className="flex min-h-screen items-center justify-center px-4">
       <div className="flex flex-col items-center text-center">
         {/* Loading Spinner */}
         <div className="relative mb-6 flex h-16 w-16 items-center justify-center">
           <div className="absolute h-16 w-16 animate-spin rounded-full border-4 border-[#F9E8E8] border-t-[#E83B5B]" />
 
-          <div className="h-8 w-8 rounded-full bg-[#F9E8E8]" />
+          <div className="h-8 w-8 rounded-full " />
         </div>
 
         {/* Brand */}
