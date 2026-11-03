@@ -12,9 +12,11 @@ import {
   HiOutlineClipboardDocumentList,
   HiOutlineUserGroup,
   HiOutlineArrowRightOnRectangle,
+  HiUserCircle,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { LucideCircleUser } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home", icon: HiOutlineHome },
@@ -179,6 +181,12 @@ export default function Navbar() {
                   </li>
 
                   {/* Create Event */}
+                  <li>
+                    <Link href="/profile">
+                      <HiUserCircle className="text-lg" />
+                      Profile
+                    </Link>
+                  </li>
                   <li>
                     <Link href="/events/create">
                       <HiOutlinePlusCircle className="text-lg" />
