@@ -86,7 +86,11 @@ const CreateEventForm = () => {
   // Local date "YYYY-MM-DD", set after mount so SSR/hydration always match.
   const [today, setToday] = useState("");
   useEffect(() => {
-    setToday(format(new Date(), "yyyy-MM-dd"));
+    const timer = window.setTimeout(() => {
+      setToday(format(new Date(), "yyyy-MM-dd"));
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   const organizerEmail = session?.user?.email;
