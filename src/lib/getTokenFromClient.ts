@@ -1,10 +1,16 @@
-import { headers } from "next/headers";
-import { auth } from "./auth";
+import { authClient } from "./auth-client";
 
-export const getTokenFromClient = async () => {
-  const jwtToken = await auth.api.getToken({
-    headers: await headers(),
-  });
-  const token = jwtToken?.token;
-  return token;
+/**
+ * Client-side helper: asks Better Auth's jwtClient plugin for a fresh JWT
+ * (GET /api/auth/token) using the logged-in session cookie. Safe to use in
+ * "use client" components — never import server-only code here.
+ */
+export const getTokenFromClient = async (): Promise<string | null> => {
+  try {
+    const { data, error } = await authClient.token();
+    if (error || !data?.token) return null;
+    return data.token;
+  } catch {
+    return null;
+  }
 };

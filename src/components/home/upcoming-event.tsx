@@ -9,6 +9,7 @@ import {
   MdPersonOutline,
 } from "react-icons/md";
 import Image from "next/image";
+import { API_BASE_URL } from "@/lib/api";
 
 type Event = {
   _id: string;
@@ -21,7 +22,7 @@ type Event = {
   organizerEmail: string;
 };
 
-const API_URL = "http://localhost:5000";
+const API_URL = API_BASE_URL;
 
 const categoryColors: Record<string, string> = {
   Donation: "bg-pink-100 text-pink-600",

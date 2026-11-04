@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { format, parse } from "date-fns";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { API_BASE_URL } from "@/lib/api";
 
 interface Event {
   _id: string;
@@ -59,10 +61,22 @@ export default function JoinedEventsPage() {
     setLoading(true);
     setError("");
     try {
+      const token = await getTokenFromClient();
+
+      if (!token) {
+        throw new Error("Your session has expired. Please log in again.");
+      }
+
       const res = await fetch(
-        `http://localhost:5000/joined-events/${encodeURIComponent(joinedEmail)}`,
+        `${API_BASE_URL}/joined-events/${encodeURIComponent(joinedEmail)}`,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
       );
-      if (!res.ok) throw new Error("Failed to fetch your joined events.");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message || "Failed to fetch your joined events.");
+      }
       setEvents((await res.json()) as Event[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");

@@ -9,8 +9,9 @@ import {
 import UpcomingEventsExplorer, {
   type CommunityEvent,
 } from "./upcoming-events-explorer";
+import { API_BASE_URL } from "@/lib/api";
 
-const API_URL = "http://localhost:5000/events/upcoming";
+const API_URL = `${API_BASE_URL}/events/upcoming`;
 
 export default function UpcomingEventsPage() {
   return (

@@ -20,8 +20,9 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { API_BASE_URL } from "@/lib/api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = API_BASE_URL;
 
 type ProfileData = {
   name: string;

@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { format, parse } from "date-fns";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { API_BASE_URL } from "@/lib/api";
 import { toast } from "sonner";
 
 interface Event {
@@ -76,10 +78,22 @@ export default function ManageEvents() {
     setLoading(true);
     setError("");
     try {
+      const token = await getTokenFromClient();
+
+      if (!token) {
+        throw new Error("Your session has expired. Please log in again.");
+      }
+
       const res = await fetch(
-        `http://localhost:5000/events/organizer/${encodeURIComponent(organizerEmail)}`,
+        `${API_BASE_URL}/events/organizer/${encodeURIComponent(organizerEmail)}`,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
       );
-      if (!res.ok) throw new Error("Failed to fetch your events.");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message || "Failed to fetch your events.");
+      }
       setEvents((await res.json()) as Event[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -130,9 +144,18 @@ export default function ManageEvents() {
     setSaving(true);
     setEditError("");
     try {
-      const res = await fetch(`http://localhost:5000/events/${editing._id}`, {
+      const token = await getTokenFromClient();
+
+      if (!token) {
+        throw new Error("Your session has expired. Please log in again.");
+      }
+
+      const res = await fetch(`${API_BASE_URL}/events/${editing._id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           organizerEmail: email,
           title: editForm.title.trim(),
@@ -171,9 +194,18 @@ export default function ManageEvents() {
 
     setDeletingId(event._id);
     try {
-      const res = await fetch(`http://localhost:5000/events/${event._id}`, {
+      const token = await getTokenFromClient();
+
+      if (!token) {
+        throw new Error("Your session has expired. Please log in again.");
+      }
+
+      const res = await fetch(`${API_BASE_URL}/events/${event._id}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ organizerEmail: email }),
       });
 
@@ -191,7 +223,7 @@ export default function ManageEvents() {
           : "Something went wrong while deleting.",
       );
 
-      toast.error("Failed to edit event");
+      toast.error("Failed to delete event");
     } finally {
       setDeletingId(null);
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { format, parse } from "date-fns";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -25,8 +25,8 @@ import {
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { auth } from "@/lib/auth";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { API_BASE_URL } from "@/lib/api";
 
 const EVENT_TYPES = [
   { value: "Donation", icon: HiOutlineHeart },
@@ -79,9 +79,15 @@ const inputClass =
 const labelClass =
   "text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55";
 
-const CreateEventForm = ({ today }: { today: string }) => {
+const CreateEventForm = () => {
   const shouldReduceMotion = useReducedMotion();
   const { data: session, isPending } = authClient.useSession();
+
+  // Local date "YYYY-MM-DD", set after mount so SSR/hydration always match.
+  const [today, setToday] = useState("");
+  useEffect(() => {
+    setToday(format(new Date(), "yyyy-MM-dd"));
+  }, []);
 
   const organizerEmail = session?.user?.email;
   const [title, setTitle] = useState("");
@@ -133,9 +139,17 @@ const CreateEventForm = ({ today }: { today: string }) => {
       return;
     }
 
-    const token = await getTokenFromClient;
+    const token = await getTokenFromClient();
+
+    if (!token) {
+      setError(
+        "Could not verify your session. Please log in again and retry.",
+      );
+      return;
+    }
+
     try {
-      const res = await fetch("http://localhost:5000/events/create", {
+      const res = await fetch(`${API_BASE_URL}/events/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

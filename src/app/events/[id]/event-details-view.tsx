@@ -11,10 +11,12 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi2";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import Image from "next/image";
 import { toast } from "sonner";
+import { API_BASE_URL } from "@/lib/api";
 
-const API_URL = "http://localhost:5000/events";
+const API_URL = `${API_BASE_URL}/events`;
 
 type EventDetails = {
   _id?: string;
@@ -83,9 +85,18 @@ export default function EventDetailsView({ event }: { event: EventDetails }) {
     setJoinState("loading");
 
     try {
+      const token = await getTokenFromClient();
+
+      if (!token) {
+        throw new Error("Your session has expired. Please log in again.");
+      }
+
       const res = await fetch(`${API_URL}/${eventId}/join`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           email: userEmail,
           name: session?.user?.name,
