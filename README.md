@@ -1,36 +1,175 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kindora — Frontend
 
-## Getting Started
+<p align="center">
+  <strong>Small Acts. Greater Impact.</strong>
+</p>
 
-First, run the development server:
+<p align="center">
+  A community-driven event management platform that connects people with meaningful events and volunteering opportunities.
+</p>
+
+<p align="center">
+  Built with Next.js, React, TypeScript, and Tailwind CSS.
+</p>
+
+---
+
+## 🌸 About Kindora
+
+**Kindora** is a community event management platform designed to bring people together through kindness, volunteering, and meaningful experiences.
+
+Users can explore upcoming events, discover opportunities to contribute to their communities, join events, and manage their activities through a personalized dashboard.
+
+The frontend provides a responsive and user-friendly interface with authentication and event management functionality.
+
+## ✨ Features
+
+- **Authentication**
+  - Google authentication using Better Auth.
+  - User registration and login.
+  - Protected pages for authenticated users.
+
+- **Event Discovery**
+  - Browse available events.
+  - View individual event details.
+  - Explore upcoming events.
+
+- **Event Participation**
+  - Join community events.
+  - View joined events.
+  - Manage organized events.
+
+- **User Profile**
+  - View user information.
+  - Access personal event activities.
+
+- **Responsive Design**
+  - Mobile-friendly interface.
+  - Modern and clean UI.
+  - Light and dark theme support.
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Next.js | React framework |
+| React | UI development |
+| TypeScript | Type safety |
+| Tailwind CSS | Styling |
+| DaisyUI | UI components |
+| Better Auth | Authentication |
+| Motion | UI animations |
+| Lucide React | Icons |
+| Sonner | Toast notifications |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have installed:
+
+- Node.js
+- npm
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone <YOUR_FRONTEND_GITHUB_URL>
+```
+
+### 2. Navigate to the project
+
+```bash
+cd kindora-frontend
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Configure environment variables
+
+Create a `.env.local` file in the root directory.
+
+```env
+NEXT_PUBLIC_API_URL=YOUR_BACKEND_API_URL
+
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+```
+
+Use your deployed frontend URL for the authentication variables in production.
+
+### 5. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Authentication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Kindora uses **Better Auth** for user authentication.
 
-## Learn More
+Google OAuth is supported, and authenticated sessions are used to control access to private pages and protected backend operations.
 
-To learn more about Next.js, take a look at the following resources:
+Public pages include event browsing and event details. Authentication is required for joining events and accessing private user features.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The frontend is deployed on Vercel.
 
-## Deploy on Vercel
+**Live Website:**  
+https://kindora-forntend.vercel.app
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For production deployment, configure the required environment variables in your Vercel project settings.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Project Structure
+
+```text
+kindora-frontend/
+│
+├── public/
+│
+├── src/
+│   ├── app/
+│   │   ├── events/
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── profile/
+│   │   ├── create-event/
+│   │   ├── manage-events/
+│   │   └── joined-events/
+│   │
+│   ├── components/
+│   │   ├── home/
+│   │   └── ...
+│   │
+│   └── lib/
+│
+├── .env.local
+├── package.json
+└── README.md
+```
+
+*This is a representative structure; folder names may differ in the current repository.*
+
+## 🔗 Backend
+
+Kindora uses a separate Express.js backend with MongoDB for data storage and API operations.
+
+**Backend Repository:** `kindora-server`
+
+## 👨‍💻 Author
+
+Developed as a full-stack web development project.
+
+---
+
+<p align="center">
+  Made with ❤️ for a kinder community.
+</p>
